@@ -24,7 +24,9 @@
     },
 
     computed: {
-      isRightAnswer: function () { return this.userAnswer.length ? this.rightAnswer === Number(this.userAnswer) : false },
+      isRightAnswer: function () {
+        return this.userAnswer.length ? this.rightAnswer === Number(this.userAnswer) : false
+      },
     },
 
     created: function () {
@@ -44,7 +46,7 @@
         this.userAnswer = '';
       },
 
-      getRandomNumber: (x = 1) => Math.floor(Math.random() * Math.pow(10, x))
+      getRandomNumber: (x = 1) => Math.floor(Math.random() * Math.pow(10, x)),
     },
   }
 </script>

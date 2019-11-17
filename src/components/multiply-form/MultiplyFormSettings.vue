@@ -4,7 +4,7 @@
             <div class="row">
                 <label>
                     <span>Число примеров </span>
-                    <select @change="$emit('set-items-numbers', itemsNumbers)" v-model="itemsNumbers">
+                    <select @change="$emit('set-items-numbers', settings.itemsNumber)" v-model="settings.itemsNumber">
                         <option v-for="n in 5" v-bind:key="n" :value="calculateItemsNumber(n)">
                             {{ calculateItemsNumber(n) }}
                         </option>
@@ -14,7 +14,7 @@
             <div class="row">
                 <label>
                     <span>Размерность <i>x&nbsp;</i></span>
-                    <select @change="$emit('set-x-size', xSize)" v-model="xSize">
+                    <select @change="$emit('set-x-size', settings.xSize)" v-model="settings.xSize">
                         <option v-for="n in 3" v-bind:key="n" :value="n">{{ n }}</option>
                     </select>
                 </label>
@@ -22,7 +22,7 @@
             <div class="row">
                 <label>
                     <span>Размерность <i>y&nbsp;</i></span>
-                    <select @change="$emit('set-y-size', ySize)" v-model="ySize">
+                    <select @change="$emit('set-y-size', settings.ySize)" v-model="settings.ySize">
                         <option v-for="n in 3" v-bind:key="n" :value="n">{{ n }}</option>
                     </select>
                 </label>
@@ -30,7 +30,7 @@
             <div class="row">
                 <label>
                     <span>Тип операции </span>
-                    <select @change="$emit('set-operation', operation)" v-model="operation">
+                    <select @change="$emit('set-operation', settings.operation)" v-model="settings.operation">
                         <option v-for="n in operationsList" v-bind:key="n" :value="n">{{ n }}</option>
                     </select>
                 </label>
@@ -53,19 +53,8 @@
       settings: Object
     },
 
-    created: function () {
-      this.itemsNumbers = this.settings.itemsNumber;
-      this.xSize = this.settings.xSize;
-      this.ySize = this.settings.ySize;
-      this.operation = this.settings.operation;
-    },
-
     data: function () {
       return {
-        itemsNumbers: 10,
-        xSize: 1,
-        ySize: 1,
-        operation: '+',
         operationsList: [
           '+', '-', '*', '/'
         ]
@@ -73,7 +62,7 @@
     },
 
     methods: {
-      calculateItemsNumber: (n) => n * 10
+      calculateItemsNumber: (n) => n * 10,
     }
   }
 </script>
