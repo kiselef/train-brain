@@ -2,10 +2,7 @@
     <div class="main">
         <div class="settings">
             <multiply-form-settings
-                v-on:set-items-numbers="changeItems"
-                v-on:set-x-size="changeXSize"
-                v-on:set-y-size="changeYSize"
-                v-on:set-operation="changeOperation"
+                v-on:update-values="updateValues"
                 v-bind:settings="settings" />
         </div>
         <div class="form">
@@ -34,23 +31,7 @@
     },
 
     methods: {
-      changeItems: function (n) {
-        this.settings.itemsNumber = n;
-        this.updateFormItemValues();
-      },
-      changeXSize: function (n) {
-        this.settings.xSize = n;
-        this.updateFormItemValues();
-      },
-      changeYSize: function (n) {
-        this.settings.ySize = n;
-        this.updateFormItemValues();
-      },
-      changeOperation: function (n) {
-        this.settings.operation = n;
-        this.updateFormItemValues();
-      },
-      updateFormItemValues: function () {
+      updateValues: function () {
         this.$refs.item.forEach(itemComponent => itemComponent.updateValues());
       }
     },
