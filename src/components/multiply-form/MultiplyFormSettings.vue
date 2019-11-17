@@ -38,7 +38,7 @@
             <div class="row">
                 <label>
                     <span>Проверять сразу </span>
-                    <input type="checkbox" disabled />
+                    <input type="checkbox" v-model="settings.immediatelyCheck" />
                 </label>
             </div>
         </fieldset>
@@ -62,7 +62,7 @@
     },
 
     methods: {
-      calculateItemsNumber: (n) => n * 10,
+      calculateItemsNumber: n => n * 10,
     }
   }
 </script>

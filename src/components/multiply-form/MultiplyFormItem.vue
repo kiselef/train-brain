@@ -1,9 +1,9 @@
 <template>
-    <li :data-index="index" v-bind:class="{ successful: isRightAnswer }">
+    <li :data-index="index" v-bind:class="{ successful: isRightAnswer, changed: isChanged && this.settings.immediatelyCheck }" @change="isChanged = true">
         <label>
             <span>{{ xValue }} {{ settings.operation }} {{ yValue }}</span>
             <input
-                 type="text"
+                 type="number"
                  v-model="userAnswer"
             />
         </label>
@@ -20,13 +20,16 @@
         rightAnswer: null,
         xValue: null,
         yValue: null,
+        isChanged: false,
       }
     },
 
     computed: {
       isRightAnswer: function () {
-        return this.userAnswer.length ? this.rightAnswer === Number(this.userAnswer) : false
-      },
+        return this.settings.immediatelyCheck && this.userAnswer.length
+          ? this.rightAnswer === Number(this.userAnswer)
+          : false
+      }
     },
 
     created: function () {
@@ -70,22 +73,32 @@
             &:after {
                 content: "❓";
                 position: absolute;
-                font-size: 1.16em;
-                top: 25px;
+                font-size: 1.6em;
+                top: 22px;
                 right: 8px;
-
             }
             &:focus-within:after {
                 content: "🤔";
             }
 
         }
-        &.successful {
+        &.changed {
+            label {
+                &:focus-within:after {
+                    content: "🤔";
+                }
+                &:after {
+                    content: "🙄‍";
+                }
+            }
+        }
+        &.changed.successful, &.successful {
             label:after {
-                content: "😜";
+                content: "😎";
             }
             input {
                 color: green;
+                border-color: #87ccaf;
             }
         }
     }
