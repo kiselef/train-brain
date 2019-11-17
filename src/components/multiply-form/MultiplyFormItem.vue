@@ -1,13 +1,14 @@
 <template>
-    <li :data-index="index" v-bind:class="{ successful: isRightAnswer, changed: isChanged && this.settings.immediatelyCheck }" @change="isChanged = true">
+    <div class="col-md-10" :data-index="index" v-bind:class="{ successful: isRightAnswer, changed: isChanged && this.settings.immediatelyCheck }" @change="isChanged = true">
         <label>
             <span>{{ xValue }} {{ settings.operation }} {{ yValue }}</span>
             <input
+                 class="form-control"
                  type="number"
                  v-model="userAnswer"
             />
         </label>
-    </li>
+    </div>
 </template>
 
 <script>
@@ -47,6 +48,7 @@
         this.yValue = this.getRandomNumber(this.settings.ySize);
         this.rightAnswer = eval(this.xValue + this.settings.operation + this.yValue);
         this.userAnswer = '';
+        this.isChanged = false;
       },
 
       getRandomNumber: (x = 1) => Math.floor(Math.random() * Math.pow(10, x)),
@@ -65,10 +67,7 @@
             }
             input {
                 width: 90px;
-                border: 2px solid #ccc;
-                margin-right: 5px;
                 font-size: 1.3em;
-                padding: 3px 2px;
             }
             &:after {
                 content: "❓";
