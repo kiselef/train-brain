@@ -2,7 +2,7 @@
     <div class="main">
         <div class="settings">
             <multiply-form-settings
-                v-on:update-values="updateValues"
+                v-on:update-settings-values="updateSettingsValues"
                 v-bind:settings="settings" />
         </div>
         <div class="form">
@@ -31,7 +31,7 @@
     },
 
     methods: {
-      updateValues: function () {
+      updateSettingsValues: function () {
         this.$refs.item.forEach(itemComponent => itemComponent.updateValues());
       }
     },

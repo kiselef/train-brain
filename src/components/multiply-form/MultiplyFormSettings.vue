@@ -4,7 +4,7 @@
             <div class="row">
                 <label>
                     <span>Число примеров </span>
-                    <select @change="$emit('update-values')" v-model="settings.itemsNumber">
+                    <select @change="$emit('update-settings-values')" v-model="settings.itemsNumber">
                         <option v-for="n in 5" v-bind:key="n" :value="calculateItemsNumber(n)">
                             {{ calculateItemsNumber(n) }}
                         </option>
