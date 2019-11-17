@@ -5,8 +5,8 @@
                 <label>
                     <span>Число примеров </span>
                     <select @change="$emit('update-settings-values')" v-model="settings.itemsNumber">
-                        <option v-for="n in 5" v-bind:key="n" :value="calculateItemsNumber(n)">
-                            {{ calculateItemsNumber(n) }}
+                        <option v-for="n in itemsNumberList" v-bind:key="n" :value="n">
+                            {{ n }}
                         </option>
                     </select>
                 </label>
@@ -53,8 +53,13 @@
       settings: Object
     },
 
+    created: function () {
+      this.initNumbersList();
+    },
+
     data: function () {
       return {
+        itemsNumberList: [],
         operationsList: [
           '+', '-', '*', '/'
         ]
@@ -62,7 +67,11 @@
     },
 
     methods: {
-      calculateItemsNumber: n => n * 10,
+      initNumbersList: function () {
+        for (let i = 1; i <= 5; i++) {
+          this.itemsNumberList.push(i * 10)
+        }
+      },
     }
   }
 </script>
