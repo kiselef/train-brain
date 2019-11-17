@@ -14,7 +14,7 @@
             <div class="row">
                 <label>
                     <span>Размерность <i>x&nbsp;</i></span>
-                    <select @change="$emit('update-values')" v-model="settings.xSize">
+                    <select @change="$emit('update-settings-values')" v-model="settings.xSize">
                         <option v-for="n in 3" v-bind:key="n" :value="n">{{ n }}</option>
                     </select>
                 </label>
@@ -22,7 +22,7 @@
             <div class="row">
                 <label>
                     <span>Размерность <i>y&nbsp;</i></span>
-                    <select @change="$emit('update-values')" v-model="settings.ySize">
+                    <select @change="$emit('update-settings-values')" v-model="settings.ySize">
                         <option v-for="n in 3" v-bind:key="n" :value="n">{{ n }}</option>
                     </select>
                 </label>
@@ -30,7 +30,7 @@
             <div class="row">
                 <label>
                     <span>Тип операции </span>
-                    <select @change="$emit('update-values')" v-model="settings.operation">
+                    <select @change="$emit('update-settings-values')" v-model="settings.operation">
                         <option v-for="n in operationsList" v-bind:key="n" :value="n">{{ n }}</option>
                     </select>
                 </label>
