@@ -47,6 +47,7 @@
         this.yValue = this.getRandomNumber(this.settings.ySize);
         this.rightAnswer = eval(this.xValue + this.settings.operation + this.yValue);
         this.userAnswer = '';
+        this.isChanged = false;
       },
 
       getRandomNumber: (x = 1) => Math.floor(Math.random() * Math.pow(10, x)),

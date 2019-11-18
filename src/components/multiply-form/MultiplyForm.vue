@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <fieldset class="main" v-bind:disabled="isCompleted" v-bind:class="{ disabled: isCompleted }">
         <div class="settings">
             <multiply-form-settings
                 v-on:update-settings-values="updateSettingsValues"
@@ -15,7 +15,7 @@
                     v-bind:settings="settings" />
             </ul>
         </div>
-    </div>
+    </fieldset>
 </template>
 
 <script>
@@ -24,6 +24,13 @@
 
   export default {
     name: "MultiplyForm",
+
+    props: {
+      isCompleted: {
+        type: Boolean,
+        default: false,
+      },
+    },
 
     components: {
       MultiplyFormItem,
@@ -43,7 +50,7 @@
           xSize: 1,
           ySize: 1,
           operation: '+',
-          immediatelyCheck: false,
+          immediatelyCheck: true,
         },
       };
     },
@@ -55,11 +62,13 @@
         list-style-type: none;
     }
     .main {
-        margin: 0 auto;
+        border: 0;
+        &.disabled {
+            opacity: 0.6;
+        }
         > div {
             box-sizing: border-box;
             float: left;
-            padding: 10px;
         }
         .settings {
             width: 20%;
