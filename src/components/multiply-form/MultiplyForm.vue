@@ -5,7 +5,7 @@
                 v-on:update-settings-values="updateSettingsValues"
                 v-bind:settings="settings" />
         </div>
-        <div class="form">
+        <div class="form" v-if="isReady || isCompleted">
             <ul class="brain-form-ul">
                 <multiply-form-item
                     ref="item"
@@ -27,6 +27,10 @@
     name: "MultiplyForm",
 
     props: {
+      isReady: {
+        type: Boolean,
+        default: false,
+      },
       isCompleted: {
         type: Boolean,
         default: false,
@@ -70,12 +74,17 @@
         > div {
             box-sizing: border-box;
             float: left;
+            width: 100%;
         }
-        .settings {
-            width: 20%;
-        }
-        .form {
-            width: 80%;
+    }
+    @media (min-width: 1024px) {
+        .main {
+            .settings {
+                width: 20%;
+            }
+            .form {
+                width: 80%;
+            }
         }
     }
 </style>

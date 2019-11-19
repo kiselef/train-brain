@@ -3,11 +3,15 @@
     Твое имя: <input type="text" v-model="name" />
     <div v-if="name.length > 3">
       <h3>Привет, {{ name }}. Реши примеры правильно и покажется смайлик 😎</h3>
-      <multiply-timer v-bind:isReady="isReady" v-bind:isCompleted="isCompleted" v-on:change-timer-props="changePropsFromTimer" />
+      <multiply-timer
+          v-bind:isReady="isReady"
+          v-bind:isCompleted="isCompleted"
+          v-bind:errorsAnswerCounter="errorsAnswerCounter"
+          v-on:change-main-props="changeMainProps" />
       <multiply-form
-           v-if="isReady || isCompleted"
-           v-bind:isCompleted="isCompleted"
-           v-on:increase-answer-errors="errorsAnswerCounter++" />
+          v-bind:isReady="isReady"
+          v-bind:isCompleted="isCompleted"
+          v-on:increase-answer-errors="errorsAnswerCounter++" />
     </div>
   </div>
 </template>
@@ -34,7 +38,7 @@ export default {
   },
 
   methods: {
-    changePropsFromTimer: function (props) {
+    changeMainProps: function (props) {
       for (let prop in props) {
         if (this.hasOwnProperty(prop)) {
           this[prop] = props[prop]
