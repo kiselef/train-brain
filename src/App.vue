@@ -6,12 +6,15 @@
       <multiply-timer
           v-bind:isReady="isReady"
           v-bind:isCompleted="isCompleted"
-          v-bind:errorsAnswerCounter="errorsAnswerCounter"
           v-on:change-main-props="changeMainProps" />
       <multiply-form
           v-bind:isReady="isReady"
           v-bind:isCompleted="isCompleted"
           v-on:increase-answer-errors="errorsAnswerCounter++" />
+      <multiply-results
+          v-bind:errorsAnswerCounter="errorsAnswerCounter"
+          v-bind:isCompleted="isCompleted"
+      />
     </div>
   </div>
 </template>
@@ -19,6 +22,7 @@
 <script>
 import MultiplyForm from './components/multiply-form/MultiplyForm'
 import MultiplyTimer from "./components/multiply-timer/MultiplyTimer";
+import MultiplyResults from "./components/MultiplyResults";
 
 export default {
   name: 'app',
@@ -33,6 +37,7 @@ export default {
   },
 
   components: {
+    MultiplyResults,
     MultiplyTimer,
     MultiplyForm,
   },

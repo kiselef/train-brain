@@ -9,7 +9,6 @@
                 <span v-if="timeMinTook > 0">{{ timeMinTook }} мин. </span>
                 <span v-if="timeSecTookInMin > 0">{{ timeSecTookInMin }} сек.</span>
             </div>
-            <div v-if="isCompleted && errorsAnswerCounter">Ошибок: {{ errorsAnswerCounter }}</div>
         </div>
     </div>
 </template>
@@ -21,7 +20,6 @@
     props: {
       isReady: Boolean,
       isCompleted: Boolean,
-      errorsAnswerCounter: Number,
     },
 
     data: function () {
