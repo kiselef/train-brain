@@ -37,20 +37,23 @@
     methods: {
       start: function () {
         if (this.isReady) {
-          return;
+          return
         }
-
-        this.isReady = true;
         this.executingTimeInterval = setInterval(() => {
-          this.timeSecTookSummary++;
-          this.timeSecTookInMin = this.timeSecTookInMin === 59 ? 0 : this.timeSecTookInMin + 1;
-        }, 1000);
+          this.timeSecTookSummary++
+          this.timeSecTookInMin = this.timeSecTookInMin === 59 ? 0 : this.timeSecTookInMin + 1
+        }, 1000)
+        this.$emit('change-timer-props', {
+          isReady: true,
+        })
       },
 
       complete: function () {
         clearInterval(this.executingTimeInterval);
-        this.isCompleted = true;
-        this.isReady = false;
+        this.$emit('change-timer-props', {
+          isCompleted: true,
+          isReady: false,
+        })
       },
     },
   }

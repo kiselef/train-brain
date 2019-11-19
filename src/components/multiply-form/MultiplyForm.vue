@@ -12,7 +12,8 @@
                     v-for="index in settings.itemsNumber"
                     v-bind:key="index"
                     v-bind:index="index"
-                    v-bind:settings="settings" />
+                    v-bind:settings="settings"
+                    v-on:increase-answer-errors="$emit('increase-answer-errors')"/>
             </ul>
         </div>
     </fieldset>
@@ -40,7 +41,7 @@
     methods: {
       updateSettingsValues: function () {
         this.$refs.item.forEach(itemComponent => itemComponent.updateValues());
-      }
+      },
     },
 
     data: function () {
