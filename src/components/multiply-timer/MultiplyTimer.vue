@@ -3,11 +3,10 @@
         <button class="btn btn-ready" @click="start" v-if="!isReady && !isCompleted">Я готов!</button>
         <button class="btn btn-complete" @click="complete" v-if="isReady">Я закончил!</button>
         <div v-if="isReady || isCompleted">
-            <div v-if="timeSecTookSummary > 0">
-                <span v-if="!isCompleted">Время:</span>
-                <span v-if="isCompleted">Затрачено времени:</span>
-                <span v-if="timeMinTook > 0">{{ timeMinTook }} мин. </span>
-                <span v-if="timeSecTookInMin > 0">{{ timeSecTookInMin }} сек.</span>
+            <div v-if="timeSecSummary > 0">
+                <span>Время: </span>
+                <span v-if="timeMin > 0">{{ timeMin }} мин. </span>
+                <span v-if="timeSecInMin > 0">{{ timeSecInMin }} сек.</span>
             </div>
         </div>
     </div>
@@ -24,15 +23,15 @@
 
     data: function () {
       return {
-        timeSecTookSummary: 0,
-        timeSecTookInMin: 0,
+        timeSecSummary: 0,
+        timeSecInMin: 0,
         executingTimeInterval: null,
       };
     },
 
     computed: {
-      timeMinTook: function () {
-        return Math.floor(this.timeSecTookSummary / 60);
+      timeMin: function () {
+        return Math.floor(this.timeSecSummary / 60)
       }
     },
 
@@ -42,8 +41,8 @@
           return
         }
         this.executingTimeInterval = setInterval(() => {
-          this.timeSecTookSummary++
-          this.timeSecTookInMin = this.timeSecTookInMin === 59 ? 0 : this.timeSecTookInMin + 1
+          this.timeSecSummary++
+          this.timeSecInMin = this.timeSecSummary % 60
         }, 1000)
         this.$emit('change-main-props', {
           isReady: true,
@@ -52,6 +51,10 @@
 
       complete: function () {
         clearInterval(this.executingTimeInterval);
+        this.$emit('change-main-props', {
+          isCompleted: true,
+          isReady: false,
+        })
         this.$emit('change-main-props', {
           isCompleted: true,
           isReady: false,

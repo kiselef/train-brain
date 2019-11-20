@@ -3,6 +3,7 @@
     Твое имя: <input type="text" v-model="name" />
     <div v-if="name.length > 3">
       <h3>Привет, {{ name }}. Реши примеры правильно и покажется смайлик 😎</h3>
+      <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
       <multiply-timer
           v-bind:isReady="isReady"
           v-bind:isCompleted="isCompleted"
@@ -13,8 +14,7 @@
           v-on:increase-answer-errors="errorsAnswerCounter++" />
       <multiply-results
           v-bind:errorsAnswerCounter="errorsAnswerCounter"
-          v-bind:isCompleted="isCompleted"
-      />
+          v-bind:isCompleted="isCompleted" />
     </div>
   </div>
 </template>

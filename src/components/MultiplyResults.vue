@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div v-if="isCompleted && errorsAnswerCounter">Ошибок: {{ errorsAnswerCounter }}</div>
+        <div v-if="isCompleted">
+            <div>Ошибок: <span>{{ errorsAnswerCounter }}</span></div>
+        </div>
     </div>
 </template>
 
@@ -15,6 +17,7 @@
 
     data: function () {
       return {
+
       };
     },
   }
