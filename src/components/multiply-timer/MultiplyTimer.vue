@@ -55,10 +55,6 @@
           isCompleted: true,
           isReady: false,
         })
-        this.$emit('change-main-props', {
-          isCompleted: true,
-          isReady: false,
-        })
       },
     },
   }
