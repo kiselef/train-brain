@@ -47,24 +47,42 @@
 
     methods: {
       updateValues: function () {
-        this.xValue = this.getRandomNumber(this.settings.xSize)
-        this.yValue = this.getRandomNumber(this.settings.ySize)
-        this.rightAnswer = eval(this.xValue + this.settings.operation + this.yValue)
-        this.userAnswer = ''
-        this.isChanged = false
+        this.xValue = this.getNumberBySize(this.settings.xSize);
+        this.yValue = this.getNumberBySize(this.settings.ySize);
+        this.rightAnswer = eval(this.xValue + this.settings.operation + this.yValue);
+        this.userAnswer = '';
+        this.isChanged = false;
       },
 
       changedAnswer: function () {
         if (this.isChanged) {
-          return
+          return;
         }
-        this.isChanged = true
+        this.isChanged = true;
         if (!this.isRightAnswer) {
-          this.$emit('increase-answer-errors')
+          this.$emit('increase-answer-errors');
         }
       },
 
-      getRandomNumber: (x = 1) => Math.floor(Math.random() * Math.pow(10, x)),
+      getNumberBySize: function (size = 1) {
+        const
+          min = Math.pow(10, size - 1),
+          max = Math.pow(10, size) - 1,
+          rand = min - 0.5 + Math.random() * (max - min + 1);
+
+        let completedRand = Math.round(rand);
+        // числа должны быть без нуля на конце
+        if (completedRand % 10 === 0) {
+          completedRand += this.getRandomNumber(1, 9);
+        }
+
+        return completedRand;
+      },
+
+      getRandomNumber: (min, max) => {
+        let rand = min - 0.5 + Math.random() * (max - min + 1);
+        return Math.round(rand);
+      },
     },
   }
 </script>
