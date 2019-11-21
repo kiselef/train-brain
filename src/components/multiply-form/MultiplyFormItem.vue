@@ -67,16 +67,15 @@
       getNumberBySize: function (size = 1) {
         const
           min = Math.pow(10, size - 1),
-          max = Math.pow(10, size) - 1,
-          rand = min - 0.5 + Math.random() * (max - min + 1);
+          max = Math.pow(10, size) - 1;
 
-        let completedRand = Math.round(rand);
+        let rand = this.getRandomNumber(min, max);
         // числа должны быть без нуля на конце
-        if (completedRand % 10 === 0) {
-          completedRand += this.getRandomNumber(1, 9);
+        if (rand % 10 === 0) {
+          rand += this.getRandomNumber(1, 9);
         }
 
-        return completedRand;
+        return rand;
       },
 
       getRandomNumber: (min, max) => {
