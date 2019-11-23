@@ -1,17 +1,17 @@
 <template>
-    <li :data-index="index"
-        v-bind:class="{ successful: isRightAnswer && isChanged, changed: isChanged }"
+    <div
+        class="col-sm-6 col-md-4 col-lg-3"
+        :class="{ successful: isRightAnswer && isChanged, changed: isChanged }"
         @change="changedAnswer"
         >
-        <label>
-            <span>{{ xValue }} {{ settings.operation }} {{ yValue }}</span>
-            <input
-                 type="number"
-                 v-model="userAnswer"
-                 :disabled="isRightAnswer"
-            />
-        </label>
-    </li>
+        <b-input-group :prepend="calculatingTextLabel" class="mt-3" size="sm">
+            <b-form-input type="number" v-model="userAnswer" :disabled="isRightAnswer"></b-form-input>
+            <!-- <b-input-group-append>
+                <b-input-group-text>R</b-input-group-text>
+            </b-input-group-append> -->
+        </b-input-group>
+
+    </div>
 </template>
 
 <script>
@@ -33,6 +33,10 @@
         return this.isChanged
           ? this.rightAnswer === Number(this.userAnswer)
           : false
+      },
+
+      calculatingTextLabel: function () {
+        return this.xValue + ' ' + this.settings.operation + ' ' + this.yValue + ' =';
       }
     },
 
@@ -87,54 +91,32 @@
 </script>
 
 <style lang="less" scoped>
-    li {
-        position: relative;
-        float: left;
-        label {
-            span {
-                clear: both;
-                display: block;
-            }
-            input {
-                width: 90px;
-                border: 2px solid #ccc;
-                margin-right: 5px;
-                font-size: 1.3em;
-                padding: 3px 2px;
-            }
+    .input-group {
+        &:after {
+            content: "❓";
+            position: absolute;
+            font-size: 1.4em;
+            top: 0;
+            right: 0;
+        }
+    }
+    .changed {
+        .input-group {
             &:after {
-                content: "❓";
-                position: absolute;
-                font-size: 1.6em;
-                top: 22px;
-                right: 8px;
-            }
-            &:focus-within:after {
-                content: "🤔";
-            }
-
-        }
-        &.changed {
-            label {
-                &:focus-within:after {
-                    content: "🤔";
-                }
-                &:after {
-                    content: "🙄‍";
-                }
-            }
-            &:not(.successful) input {
-                border-color: #cc8f93;
+                content: "🙄‍";
             }
         }
-        &.changed.successful, &.successful {
-            label:after {
-                content: "😎";
-            }
-            input {
-                color: green;
-                border-color: #87ccaf;
-            }
+        &:not(.successful) input {
+            border-color: #cc8f93;
+        }
+    }
+    .changed.successful, &.successful {
+        .input-group:after {
+            content: "😎";
+        }
+        input {
+            color: green;
+            border-color: #87ccaf;
         }
     }
 </style>
