@@ -1,7 +1,5 @@
 <template>
     <div>
-        <button class="btn btn-ready" @click="start" v-if="!isReady && !isCompleted">Я готов!</button>
-        <button class="btn btn-complete" @click="complete" v-if="isReady">Я закончил!</button>
         <div v-if="isReady || isCompleted">
             <div v-if="timeSecSummary > 0">
                 <span>Время: </span>
@@ -35,26 +33,27 @@
       }
     },
 
+    watch: {
+      isReady(status) {
+        if (status) {
+          this.start()
+        } else {
+          this.stop()
+        }
+      },
+    },
+
     methods: {
       start: function () {
-        if (this.isReady) {
-          return
-        }
+        this.timeSecSummary = 0
         this.executingTimeInterval = setInterval(() => {
           this.timeSecSummary++
           this.timeSecInMin = this.timeSecSummary % 60
         }, 1000)
-        this.$emit('change-main-props', {
-          isReady: true,
-        })
       },
 
-      complete: function () {
-        clearInterval(this.executingTimeInterval);
-        this.$emit('change-main-props', {
-          isCompleted: true,
-          isReady: false,
-        })
+      stop: function () {
+        clearInterval(this.executingTimeInterval)
       },
     },
   }

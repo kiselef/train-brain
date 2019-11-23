@@ -1,22 +1,23 @@
 <template>
-    <fieldset class="main" v-bind:disabled="isCompleted" v-bind:class="{ disabled: isCompleted }">
-        <div class="settings">
-            <multiply-form-settings
-                v-on:update-settings-values="updateSettingsValues"
-                v-bind:settings="settings" />
-        </div>
-        <div class="form" v-if="isReady || isCompleted">
-            <ul class="brain-form-ul">
+    <div>
+        <multiply-form-settings
+            @update-settings-values="updateSettingsValues"
+            @start="$emit('start')"
+            :is-ready="isReady"
+            :is-completed="isCompleted"
+            :settings="settings" />
+        <div class="container">
+            <div class="row" v-if="isReady || isCompleted">
                 <multiply-form-item
                     ref="item"
                     v-for="index in settings.itemsNumber"
-                    v-bind:key="index"
-                    v-bind:index="index"
-                    v-bind:settings="settings"
-                    v-on:increase-answer-errors="$emit('increase-answer-errors')"/>
-            </ul>
+                    :key="index"
+                    :index="index"
+                    :settings="settings"
+                    @increase-answer-errors="$emit('increase-answer-errors')"/>
+            </div>
         </div>
-    </fieldset>
+    </div>
 </template>
 
 <script>
@@ -51,7 +52,7 @@
     data: function () {
       return {
         settings: {
-          itemsNumber: 10,
+          itemsNumber: 12,
           xSize: 1,
           ySize: 1,
           operation: '+',
@@ -63,28 +64,5 @@
 </script>
 
 <style lang="less" scoped>
-    ul.brain-form-ul {
-        list-style-type: none;
-    }
-    .main {
-        border: 0;
-        &.disabled {
-            opacity: 0.6;
-        }
-        > div {
-            box-sizing: border-box;
-            float: left;
-            width: 100%;
-        }
-    }
-    @media (min-width: 1024px) {
-        .main {
-            .settings {
-                width: 20%;
-            }
-            .form {
-                width: 80%;
-            }
-        }
-    }
+
 </style>

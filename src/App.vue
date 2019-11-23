@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    Твое имя: <input type="text" v-model="name" />
-    <div v-if="name.length > 3">
-      <h3>Привет, {{ name }}. Реши примеры правильно и покажется смайлик 😎</h3>
-      <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
-      <multiply-timer
-          v-bind:isReady="isReady"
-          v-bind:isCompleted="isCompleted"
-          v-on:change-main-props="changeMainProps" />
-      <multiply-form
-          v-bind:isReady="isReady"
-          v-bind:isCompleted="isCompleted"
-          v-on:increase-answer-errors="errorsAnswerCounter++" />
-      <multiply-results
-          v-bind:errorsAnswerCounter="errorsAnswerCounter"
-          v-bind:isCompleted="isCompleted" />
-    </div>
+      <who-are-you v-if="!name" @user-name-changed="login" />
+      <div v-else>
+          <top-nav :name="name" @user-logout="logout" />
+          <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
+          <multiply-form
+              :isReady="isReady"
+              :isCompleted="isCompleted"
+              @increase-answer-errors="errorsAnswerCounter++"
+          />
+          <multiply-results
+              :errorsAnswerCounter="errorsAnswerCounter"
+              :isReady="isReady"
+              :isCompleted="isCompleted"
+              @start="start"
+              @stop="stop"
+          />
+      </div>
   </div>
 </template>
 
 <script>
 import MultiplyForm from './components/multiply-form/MultiplyForm'
-import MultiplyTimer from "./components/multiply-timer/MultiplyTimer";
 import MultiplyResults from "./components/MultiplyResults";
+import WhoAreYou from "./components/WhoAreYou";
+import TopNav from "./components/top-nav/TopNav";
 
 export default {
   name: 'app',
@@ -36,19 +38,50 @@ export default {
     };
   },
 
+  mounted: function () {
+    this.name = localStorage.name || ''
+  },
+
   components: {
+    TopNav,
+    WhoAreYou,
     MultiplyResults,
-    MultiplyTimer,
     MultiplyForm,
   },
 
   methods: {
+    start: function () {
+      this.isReady = true
+      this.isCompleted = false
+    },
+
+    stop: function () {
+      this.isReady = false
+      this.isCompleted = true
+    },
+
     changeMainProps: function (props) {
       for (let prop in props) {
         if (this.hasOwnProperty(prop)) {
           this[prop] = props[prop]
         }
       }
+    },
+
+    login: function (name) {
+      this.name = name;
+    },
+
+    logout: function () {
+      this.name = ''
+      this.isReady = false
+      this.isCompleted = false
+    },
+  },
+
+  watch: {
+    name (newName) {
+      localStorage.name = newName
     }
   },
 }
@@ -60,6 +93,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 0 70px 0;
 }
 </style>
