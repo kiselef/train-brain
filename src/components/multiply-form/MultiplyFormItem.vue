@@ -4,13 +4,10 @@
         :class="{ successful: isRightAnswer && isChanged, changed: isChanged }"
         @change="changedAnswer"
         >
-        <b-input-group :prepend="calculatingTextLabel" class="mt-3" size="sm">
-            <b-form-input type="number" v-model="userAnswer" :disabled="isRightAnswer"></b-form-input>
-            <!-- <b-input-group-append>
-                <b-input-group-text>R</b-input-group-text>
-            </b-input-group-append> -->
-        </b-input-group>
-
+        <div class="mb-3">
+            <label class="mb-0 input-group-text">{{ questionLabel }}</label>
+            <input type="number" class="form-control form-control-sm" v-model="userAnswer" :disabled="isRightAnswer">
+        </div>
     </div>
 </template>
 
@@ -35,8 +32,8 @@
           : false
       },
 
-      calculatingTextLabel: function () {
-        return this.xValue + ' ' + this.settings.operation + ' ' + this.yValue + ' =';
+      questionLabel: function () {
+        return this.xValue + ' ' + this.settings.operation + ' ' + this.yValue;
       }
     },
 
@@ -91,17 +88,27 @@
 </script>
 
 <style lang="less" scoped>
-    .input-group {
+    label {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        padding: 0 5px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-bottom: 0;
         &:after {
             content: "❓";
             position: absolute;
             font-size: 1.4em;
-            top: 0;
-            right: 0;
+            top: 1.15em;
+            right: 0.8em;
         }
     }
+    input {
+        border-radius: 0;
+    }
     .changed {
-        .input-group {
+        label {
             &:after {
                 content: "🙄‍";
             }
@@ -110,8 +117,8 @@
             border-color: #cc8f93;
         }
     }
-    .changed.successful, &.successful {
-        .input-group:after {
+    .changed.successful, .successful {
+        label:after {
             content: "😎";
         }
         input {

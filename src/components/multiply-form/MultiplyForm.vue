@@ -6,7 +6,7 @@
             :is-ready="isReady"
             :is-completed="isCompleted"
             :settings="settings" />
-        <div class="container">
+        <fieldset class="container" :disabled="isCompleted">
             <div class="row" v-if="isReady || isCompleted">
                 <multiply-form-item
                     ref="item"
@@ -16,7 +16,7 @@
                     :settings="settings"
                     @increase-answer-errors="$emit('increase-answer-errors')"/>
             </div>
-        </div>
+        </fieldset>
     </div>
 </template>
 
