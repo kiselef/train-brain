@@ -101,6 +101,7 @@
       items: function () {
         let items = [];
         if (this.isReady) {
+          // TODO: отрефакторить
           for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
             // создаем каждый пример
             let currentItem = {
