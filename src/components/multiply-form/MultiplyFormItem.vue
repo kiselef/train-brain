@@ -1,13 +1,19 @@
 <template>
     <div
-        class="col-sm-6 col-md-4 col-lg-3"
+        class="col-sm-6 col-md-4 col-lg-3 mb-3"
         :class="{ successful: isRightAnswer && isChanged, changed: isChanged }"
         @change="changedAnswer"
         >
-        <div class="mb-3">
             <label class="mb-0 input-group-text">{{ item.label }}</label>
-            <input type="number" class="form-control form-control-sm" v-model="userAnswer" :disabled="isRightAnswer">
-        </div>
+            <input
+                type="number"
+                class="form-control form-control-sm"
+                v-model="userAnswer"
+                :readonly="isRightAnswer"
+                @keyup.enter.exact = "nextItem"
+                @keyup.shift.arrow-right = "nextItem"
+                @keyup.shift.arrow-left = "prevItem"
+            >
     </div>
 </template>
 
@@ -45,6 +51,20 @@
     },
 
     methods: {
+      nextItem: function ($e) {
+        const nextWrap = $e.target.parentElement.nextElementSibling;
+        if (nextWrap) {
+          nextWrap.getElementsByTagName('input')[0].focus();
+        }
+      },
+
+      prevItem: function ($e) {
+        const prevWrap = $e.target.parentElement.previousElementSibling;
+        if (prevWrap) {
+          prevWrap.getElementsByTagName('input')[0].focus();
+        }
+      },
+
       updateValues: function () {
         this.userAnswer = '';
         this.isChanged = false;
