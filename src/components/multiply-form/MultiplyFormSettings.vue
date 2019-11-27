@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <fieldset :disabled="isReady">
         <b-navbar toggleable="lg" type="light" variant="light" >
             <b-navbar-brand href="#" v-b-toggle.multiply-form-settings>Настройки</b-navbar-brand>
             <!--<b-navbar-nav class="ml-auto">
@@ -12,13 +12,43 @@
                     <div class="col-sm-6 col-lg-3">
                         <b-form-group
                             class="mb-1"
+                            label="Число элементов"
+                            label-for="multiply-form_numberOfElements"
+                            label-cols="8"
+                        >
+                            <b-form-select
+                                v-model="numberOfElements"
+                                @change="initSizesOfElement"
+                                :options="optionsLists.numberOfElements"
+                                id="multiply-form_numberOfElements"
+                                size="sm"
+                            ></b-form-select>
+                        </b-form-group>
+                        <b-form-group
+                            v-for="(n, index) in sizesOfElement"
+                            :key="index"
+                            class="mb-1"
+                            :label="'Размерность ' + index"
+                            :label-for="'multiply-form_sizeOfElement_' + index"
+                            label-cols="8"
+                        >
+                            <b-form-select
+                                v-model="sizesOfElement[index]"
+                                :options="optionsLists.sizesOfElement"
+                                :id="'multiply-form_sizeOfElement_' + index"
+                                size="sm"
+                            ></b-form-select>
+                        </b-form-group>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <b-form-group
+                            class="mb-1"
                             label="Число примеров"
                             label-for="multiply-form_itemsNumber"
                             label-cols="8">
                             <b-form-select
-                                @change="$emit('update-settings-values')"
-                                v-model="settings.itemsNumber"
-                                :options="itemsNumberList"
+                                v-model="numberOfItems"
+                                :options="optionsLists.numberOfItems"
                                 id="multiply-form_itemsNumber"
                                 size="sm"
                             ></b-form-select>
@@ -30,40 +60,9 @@
                             label-cols="8"
                         >
                             <b-form-select
-                                @change="$emit('update-settings-values')"
-                                v-model="settings.operation"
-                                :options="operationsList"
+                                v-model="operation"
+                                :options="optionsLists.operation"
                                 id="multiply-form_operation"
-                                size="sm"
-                            ></b-form-select>
-                        </b-form-group>
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        <b-form-group
-                            class="mb-1"
-                            label="Размерность X"
-                            label-for="multiply-form_sizesListX"
-                            label-cols="8"
-                        >
-                            <b-form-select
-                                @change="$emit('update-settings-values')"
-                                v-model="settings.xSize"
-                                :options="sizesList"
-                                id="multiply-form_sizesListX"
-                                size="sm"
-                            ></b-form-select>
-                        </b-form-group>
-                        <b-form-group
-                            class="mb-1"
-                            label="Размерность Y"
-                            label-for="multiply-form_sizesListY"
-                            label-cols="8"
-                        >
-                            <b-form-select
-                                @change="$emit('update-settings-values')"
-                                v-model="settings.ySize"
-                                :options="sizesList"
-                                id="multiply-form_sizesListY"
                                 size="sm"
                             ></b-form-select>
                         </b-form-group>
@@ -71,18 +70,14 @@
                 </div>
             </div>
         </b-collapse>
-    </div>
+    </fieldset>
 </template>
 
 <script>
   export default {
     name: "MultiplyFormSettings",
 
-    components: {
-    },
-
     props: {
-      settings: Object,
       isReady: {
         type: Boolean,
         default: false,
@@ -93,35 +88,96 @@
       },
     },
 
+    watch: {
+      isReady: function (value) {
+        if (value) {
+          this.$emit('push-items', this.items)
+        }
+      }
+    },
+
+    computed: {
+      // сгенерированные примеры по настройкам
+      items: function () {
+        let items = [];
+        if (this.isReady) {
+          // TODO: отрефакторить
+          for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
+            // создаем каждый пример
+            let currentItem = {
+              elements: [],
+              label: '',
+              result: 0,
+            };
+            for (let iElements = 0; iElements < this.numberOfElements; iElements++) {
+              // создаем каждый элемент примера
+              let currentElement = this.getNumberBySize(this.sizesOfElement[iElements]);
+              currentItem.elements.push(currentElement);
+              currentItem.label += this.numberOfElements === iElements + 1 ? currentElement : `${currentElement} ${this.operation} `;
+            }
+            currentItem.result = eval(currentItem.label);
+            items.push(currentItem)
+          }
+        }
+
+        return items;
+      }
+    },
+
     created: function () {
-      this.initForm();
+      this.initSizesOfElement();
     },
 
     data: function () {
       return {
-        itemsNumberList: [],
-        sizesList: [],
-        operationsList: [
-          '+', '-', '*', '/'
-        ]
+        // текущая операция
+        operation: '+',
+        // количество примеров
+        numberOfItems: 12,
+        // количество элементов (слагаемых/множителей/...) в примере
+        numberOfElements: 2,
+        // размерность (число цифр) каждого элемента в примере
+        sizesOfElement: [],
+        // options для select'ов (список возможных вариантов полей)
+        optionsLists: {
+          numberOfItems: [12, 24, 36, 48],
+          numberOfElements: [2, 3, 4, 5],
+          sizesOfElement: [1, 2, 3, 4],
+          operation: ['+', '-', '*', '/'],
+        },
       };
     },
 
     methods: {
-      initForm: function () {
-        this.initNumberLists();
-        this.initSizes();
-      },
-      initNumberLists: function () {
-        for (let i = 1; i <= 3; i++) {
-          this.itemsNumberList.push(i * 12)
+      initSizesOfElement: function () {
+        const diffCurrentAndNewSizes = this.numberOfElements - this.sizesOfElement.length;
+        if (diffCurrentAndNewSizes > 0) {
+          for (let i = 0; i < diffCurrentAndNewSizes; i++) {
+            this.sizesOfElement.push(1);
+          }
+        } else {
+          this.sizesOfElement = this.sizesOfElement.slice(0, this.numberOfElements);
         }
       },
-      initSizes: function () {
-        for (let i = 1; i <= 5; i++) {
-          this.sizesList.push(i)
+      // TODO: вынести эту пару методов в отдельную либу, подключать через import
+      getNumberBySize: function (size = 1) {
+        const
+          min = Math.pow(10, size - 1),
+          max = Math.pow(10, size) - 1;
+
+        let rand = this.getRandomNumber(min, max);
+        // числа должны быть без нуля на конце
+        if (rand % 10 === 0) {
+          rand += this.getRandomNumber(1, 9);
         }
-      }
+
+        return rand;
+      },
+
+      getRandomNumber: (min, max) => {
+        let rand = min - 0.5 + Math.random() * (max - min + 1);
+        return Math.round(rand);
+      },
     }
   }
 </script>

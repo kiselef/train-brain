@@ -53,19 +53,12 @@ export default {
     start: function () {
       this.isReady = true
       this.isCompleted = false
+      this.errorsAnswerCounter = 0
     },
 
     stop: function () {
       this.isReady = false
       this.isCompleted = true
-    },
-
-    changeMainProps: function (props) {
-      for (let prop in props) {
-        if (this.hasOwnProperty(prop)) {
-          this[prop] = props[prop]
-        }
-      }
     },
 
     login: function (name) {
