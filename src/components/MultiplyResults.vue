@@ -17,9 +17,14 @@
 
 <script>
   import MultiplyTimer from "./multiply-timer/MultiplyTimer";
+
   export default {
     name: "MultiplyResults",
-    components: {MultiplyTimer},
+
+    components: {
+      MultiplyTimer
+    },
+
     props: {
       isReady: Boolean,
       isCompleted: Boolean,
