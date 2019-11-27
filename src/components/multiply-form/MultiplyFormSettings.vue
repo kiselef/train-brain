@@ -2,11 +2,13 @@
     <fieldset :disabled="isReady">
         <b-navbar toggleable="lg" type="light" variant="light" >
             <b-navbar-brand href="#" v-b-toggle.multiply-form-settings>Настройки</b-navbar-brand>
-            <!--<b-navbar-nav class="ml-auto">
-                <button class="btn btn-outline-dark" v-if="!isReady && !isCompleted" @click.prevent="$emit('start')">Я готов!</button>
-            </b-navbar-nav>-->
         </b-navbar>
-        <b-collapse id="multiply-form-settings" class="pt-3" visible accordion="my-accordion" role="tabpanel">
+        <b-collapse
+            id="multiply-form-settings"
+            class="mt-4"
+            :visible="visible"
+            accordion="my-accordion"
+            role="tabpanel">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6 col-lg-3">
@@ -77,53 +79,6 @@
   export default {
     name: "MultiplyFormSettings",
 
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
-      },
-      isCompleted: {
-        type: Boolean,
-        default: false,
-      },
-    },
-
-    watch: {
-      isReady: function (value) {
-        if (value) {
-          this.$emit('push-items', this.items)
-        }
-      }
-    },
-
-    computed: {
-      // сгенерированные примеры по настройкам
-      items: function () {
-        let items = [];
-        if (this.isReady) {
-          // TODO: отрефакторить
-          for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
-            // создаем каждый пример
-            let currentItem = {
-              elements: [],
-              label: '',
-              result: 0,
-            };
-            for (let iElements = 0; iElements < this.numberOfElements; iElements++) {
-              // создаем каждый элемент примера
-              let currentElement = this.getNumberBySize(this.sizesOfElement[iElements]);
-              currentItem.elements.push(currentElement);
-              currentItem.label += this.numberOfElements === iElements + 1 ? currentElement : `${currentElement} ${this.operation} `;
-            }
-            currentItem.result = eval(currentItem.label);
-            items.push(currentItem)
-          }
-        }
-
-        return items;
-      }
-    },
-
     created: function () {
       this.initSizesOfElement();
     },
@@ -145,7 +100,43 @@
           sizesOfElement: [1, 2, 3, 4],
           operation: ['+', '-', '*', '/'],
         },
+
+        visible: true,
       };
+    },
+
+    props: {
+      isReady: {
+        type: Boolean,
+        default: false,
+      },
+      isCompleted: {
+        type: Boolean,
+        default: false,
+      },
+    },
+
+    watch: {
+      isReady: function (value) {
+        if (value) {
+          this.$emit('push-items', this.items)
+          this.visible = false
+        }
+      }
+    },
+
+    computed: {
+      // сгенерированные примеры по настройкам
+      items: function () {
+        let items = [];
+        if (this.isReady) {
+          for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
+            items.push(this.createItem())
+          }
+        }
+
+        return items;
+      }
     },
 
     methods: {
@@ -159,6 +150,29 @@
           this.sizesOfElement = this.sizesOfElement.slice(0, this.numberOfElements);
         }
       },
+
+      /**
+       * Создает один рандомный пример
+       *
+       * @returns {{elements: Array, label: string, result: number}}
+       */
+      createItem: function () {
+        let currentItem = {
+          elements: [],
+          label: '',
+          result: 0,
+        };
+        for (let iElements = 0; iElements < this.numberOfElements; iElements++) {
+          // создаем каждый элемент примера
+          let currentElement = this.getNumberBySize(this.sizesOfElement[iElements]);
+          currentItem.elements.push(currentElement);
+          currentItem.label += this.numberOfElements === iElements + 1 ? currentElement : `${currentElement} ${this.operation} `;
+        }
+        currentItem.result = eval(currentItem.label);
+
+        return currentItem;
+      },
+
       // TODO: вынести эту пару методов в отдельную либу, подключать через import
       getNumberBySize: function (size = 1) {
         const

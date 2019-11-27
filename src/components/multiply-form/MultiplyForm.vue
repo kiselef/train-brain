@@ -5,7 +5,7 @@
             :is-ready="isReady"
             :is-completed="isCompleted" />
         <fieldset class="container" :disabled="isCompleted">
-            <div class="row" v-if="isReady || isCompleted">
+            <div class="row mt-3" v-if="isReady || isCompleted">
                 <multiply-form-item
                     v-for="(item, index) in items"
                     :key="index"
