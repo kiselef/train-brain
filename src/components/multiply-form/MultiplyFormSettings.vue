@@ -1,7 +1,7 @@
 <template>
     <fieldset :disabled="isReady">
         <b-navbar toggleable="lg" type="light" variant="light" >
-            <b-navbar-brand href="#" v-b-toggle.multiply-form-settings>Настройки</b-navbar-brand>
+            <b-navbar-brand href="#" @click="visible = !visible">Настройки</b-navbar-brand>
         </b-navbar>
         <b-collapse
             id="multiply-form-settings"
@@ -30,14 +30,12 @@
                             v-for="(n, index) in sizesOfElement"
                             :key="index"
                             class="mb-1"
-                            :label="'Размерность ' + index"
-                            :label-for="'multiply-form_sizeOfElement_' + index"
+                            :label="`Размерность ${index + 1}`"
                             label-cols="8"
                         >
                             <b-form-select
                                 v-model="sizesOfElement[index]"
                                 :options="optionsLists.sizesOfElement"
-                                :id="'multiply-form_sizeOfElement_' + index"
                                 size="sm"
                             ></b-form-select>
                         </b-form-group>
@@ -85,6 +83,8 @@
 
     data: function () {
       return {
+        // примеры список
+        items: [],
         // текущая операция
         operation: '+',
         // количество примеров
@@ -119,15 +119,19 @@
     watch: {
       isReady: function (value) {
         if (value) {
-          this.$emit('push-items', this.items)
           this.visible = false
+          this.items = []
+          for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
+            this.items.push(this.createItem())
+          }
+          this.$emit('push-items', this.items)
         }
       }
     },
 
     computed: {
       // сгенерированные примеры по настройкам
-      items: function () {
+      /*items: function () {
         let items = [];
         if (this.isReady) {
           for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
@@ -136,7 +140,7 @@
         }
 
         return items;
-      }
+      }*/
     },
 
     methods: {

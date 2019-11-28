@@ -8,7 +8,7 @@
             <input
                 type="number"
                 class="form-control form-control-sm"
-                v-model="userAnswer"
+                v-model.number="userAnswer"
                 :readonly="isRightAnswer"
                 @keyup.enter.exact = "nextItem"
                 @keyup.shift.arrow-right = "nextItem"
@@ -45,7 +45,7 @@
     computed: {
       isRightAnswer: function () {
         return this.isChanged
-          ? this.item.result === Number(this.userAnswer)
+          ? this.item.result === this.userAnswer
           : false
       },
     },
