@@ -3,26 +3,32 @@
         <multiply-form-settings
             @push-items="pullItems"
             :is-ready="isReady"
-            :is-completed="isCompleted" />
-        <fieldset class="container" :disabled="isCompleted">
-            <div class="row mt-3" v-if="isReady || isCompleted">
-                <multiply-form-item
-                    v-for="(item, index) in items"
-                    :key="index"
-                    :item="item"
-                    :isReady="isReady"
-                    @increase-answer-errors="$emit('increase-answer-errors')" />
-            </div>
-        </fieldset>
+        />
+        <form-wrapper :isReady="isReady" :is-completed="isCompleted">
+            <multiply-form-item
+                v-for="(item, index) in items"
+                :key="index"
+                :item="item"
+                :isReady="isReady"
+                @increase-answer-errors="$emit('increase-answer-errors')"
+            />
+        </form-wrapper>
     </div>
 </template>
 
 <script>
   import MultiplyFormSettings from './MultiplyFormSettings.vue'
   import MultiplyFormItem from './MultiplyFormItem.vue'
+  import FormWrapper from "../common/FormWrapper";
 
   export default {
     name: "MultiplyForm",
+
+    components: {
+      FormWrapper,
+      MultiplyFormItem,
+      MultiplyFormSettings,
+    },
 
     props: {
       isReady: {
@@ -33,11 +39,6 @@
         type: Boolean,
         default: false,
       },
-    },
-
-    components: {
-      MultiplyFormItem,
-      MultiplyFormSettings,
     },
 
     methods: {

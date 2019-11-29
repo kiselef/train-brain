@@ -1,81 +1,74 @@
 <template>
-    <fieldset :disabled="isReady">
-        <b-navbar toggleable="lg" type="light" variant="light" >
-            <b-navbar-brand href="#" @click="visible = !visible">Настройки</b-navbar-brand>
-        </b-navbar>
-        <b-collapse
-            id="multiply-form-settings"
-            class="mt-4"
-            :visible="visible"
-            accordion="my-accordion"
-            role="tabpanel">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-lg-3">
-                        <b-form-group
-                            class="mb-1"
-                            label="Число элементов"
-                            label-for="multiply-form_numberOfElements"
-                            label-cols="8"
-                        >
-                            <b-form-select
-                                v-model="numberOfElements"
-                                @change="initSizesOfElement"
-                                :options="optionsLists.numberOfElements"
-                                id="multiply-form_numberOfElements"
-                                size="sm"
-                            ></b-form-select>
-                        </b-form-group>
-                        <b-form-group
-                            v-for="(n, index) in sizesOfElement"
-                            :key="index"
-                            class="mb-1"
-                            :label="`Размерность ${index + 1}`"
-                            label-cols="8"
-                        >
-                            <b-form-select
-                                v-model="sizesOfElement[index]"
-                                :options="optionsLists.sizesOfElement"
-                                size="sm"
-                            ></b-form-select>
-                        </b-form-group>
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        <b-form-group
-                            class="mb-1"
-                            label="Число примеров"
-                            label-for="multiply-form_itemsNumber"
-                            label-cols="8">
-                            <b-form-select
-                                v-model="numberOfItems"
-                                :options="optionsLists.numberOfItems"
-                                id="multiply-form_itemsNumber"
-                                size="sm"
-                            ></b-form-select>
-                        </b-form-group>
-                        <b-form-group
-                            class="mb-1"
-                            label="Тип операции"
-                            label-for="multiply-form_sizesListY"
-                            label-cols="8"
-                        >
-                            <b-form-select
-                                v-model="operation"
-                                :options="optionsLists.operation"
-                                id="multiply-form_operation"
-                                size="sm"
-                            ></b-form-select>
-                        </b-form-group>
-                    </div>
-                </div>
+    <settings-wrapper :is-ready="isReady">
+        <div class="row">
+            <div class="col-sm-6 col-lg-3">
+                <b-form-group
+                    class="mb-1"
+                    label="Число элементов"
+                    label-for="multiply-form_numberOfElements"
+                    label-cols="8"
+                >
+                    <b-form-select
+                        v-model="numberOfElements"
+                        @change="initSizesOfElement"
+                        :options="optionsLists.numberOfElements"
+                        id="multiply-form_numberOfElements"
+                        size="sm"
+                    ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                    v-for="(n, index) in sizesOfElement"
+                    :key="index"
+                    class="mb-1"
+                    :label="`Размерность ${index + 1}`"
+                    label-cols="8"
+                >
+                    <b-form-select
+                        v-model="sizesOfElement[index]"
+                        :options="optionsLists.sizesOfElement"
+                        size="sm"
+                    ></b-form-select>
+                </b-form-group>
             </div>
-        </b-collapse>
-    </fieldset>
+            <div class="col-sm-6 col-lg-3">
+                <b-form-group
+                    class="mb-1"
+                    label="Число примеров"
+                    label-for="multiply-form_itemsNumber"
+                    label-cols="8">
+                    <b-form-select
+                        v-model="numberOfItems"
+                        :options="optionsLists.numberOfItems"
+                        id="multiply-form_itemsNumber"
+                        size="sm"
+                    ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                    class="mb-1"
+                    label="Тип операции"
+                    label-for="multiply-form_sizesListY"
+                    label-cols="8"
+                >
+                    <b-form-select
+                        v-model="operation"
+                        :options="optionsLists.operation"
+                        id="multiply-form_operation"
+                        size="sm"
+                    ></b-form-select>
+                </b-form-group>
+            </div>
+        </div>
+    </settings-wrapper>
 </template>
 
 <script>
+  import SettingsWrapper from "../common/SettingsWrapper";
   export default {
     name: "MultiplyFormSettings",
+
+    components: {
+      SettingsWrapper
+    },
 
     created: function () {
       this.initSizesOfElement();
@@ -100,8 +93,6 @@
           sizesOfElement: [1, 2, 3, 4],
           operation: ['+', '-', '*', '/'],
         },
-
-        visible: true,
       };
     },
 
@@ -110,16 +101,11 @@
         type: Boolean,
         default: false,
       },
-      isCompleted: {
-        type: Boolean,
-        default: false,
-      },
     },
 
     watch: {
       isReady: function (value) {
         if (value) {
-          this.visible = false
           this.items = []
           for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
             this.items.push(this.createItem())
@@ -201,17 +187,5 @@
 </script>
 
 <style lang="less" scoped>
-    fieldset {
-        border: none;
-    }
-    nav {
-        a.navbar-brand {
-            &:after {
-                content: " 🐵";
-            }
-            &.collapsed:after {
-                content: " 🙈";
-            }
-        }
-    }
+
 </style>

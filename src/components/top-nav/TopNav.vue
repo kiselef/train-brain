@@ -1,12 +1,18 @@
 <template>
     <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
-        <b-navbar-brand href="#">NavBar</b-navbar-brand>
+        <!--<b-navbar-brand href="#">NavBar</b-navbar-brand>-->
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#" v-for="link in menu" :key="link.title" :disabled="!link.active">{{ link.title }}</b-nav-item>
+                <router-link
+                    v-for="link in menu"
+                    :key="link.title"
+                    :to="link.path"
+                    class="nav-link">
+                    {{ link.title }}
+                </router-link>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
@@ -37,16 +43,21 @@
       return {
         menu: [
           {
-            title: 'Простые решалки',
+            title: 'Тренировка операций',
             active: true,
+            path: '/'
           },
           {
-            title: 'Не простые решалки',
-            active: false,
+            title: 'Флеш-анзан',
+            active: true,
+            path: '/flash'
           },
         ],
       }
-    }
+    },
+
+    methods: {
+    },
   }
 </script>
 
