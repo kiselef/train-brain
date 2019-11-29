@@ -4,11 +4,11 @@
       <div v-else>
           <top-nav :name="name" @user-logout="logout" />
           <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
-          <multiply-form
+          <router-view
               :isReady="isReady"
               :isCompleted="isCompleted"
               @increase-answer-errors="errorsAnswerCounter++"
-          />
+          ></router-view>
           <multiply-results
               :errorsAnswerCounter="errorsAnswerCounter"
               :isReady="isReady"
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import MultiplyForm from './components/multiply-form/MultiplyForm'
 import MultiplyResults from "./components/MultiplyResults";
 import WhoAreYou from "./components/WhoAreYou";
 import TopNav from "./components/top-nav/TopNav";
@@ -46,7 +45,6 @@ export default {
     TopNav,
     WhoAreYou,
     MultiplyResults,
-    MultiplyForm,
   },
 
   methods: {
@@ -75,7 +73,11 @@ export default {
   watch: {
     name (newName) {
       localStorage.name = newName
-    }
+    },
+
+    // isReady (value) {
+    //   this.$route.is
+    // },
   },
 }
 </script>
