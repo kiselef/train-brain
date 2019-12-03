@@ -17,9 +17,9 @@
 </template>
 
 <script>
-  import MultiplyFormSettings from './MultiplyFormSettings.vue'
-  import MultiplyFormItem from './MultiplyFormItem.vue'
-  import FormWrapper from "../common/FormWrapper";
+  import FormWrapper from '../common/FormWrapper'
+  import MultiplyFormItem from './MultiplyFormItem'
+  import MultiplyFormSettings from './MultiplyFormSettings'
 
   export default {
     name: "MultiplyForm",

@@ -11,19 +11,18 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <settings-item-crease
-                                        label="Скорость примеров"
-                                        :min="0"
-                                        :max="5000"
-                                        :step="500"
-                                        v-model="speedItems"
+                                        label="Число слагаемых"
+                                        :min="2"
+                                        :max="30"
+                                        v-model="numberOfElements"
                                     />
                                 </div>
                                 <div class="col-sm-6">
                                     <settings-item-crease
                                         label="Скорость слагаемых"
-                                        :min="0"
+                                        :min="500"
                                         :max="5000"
-                                        :step="500"
+                                        :step="250"
                                         v-model="speedElements"
                                     />
                                 </div>
@@ -31,18 +30,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <settings-item-crease
-                                        label="Число слагаемых"
-                                        :min="2"
-                                        :max="30"
-                                        v-model="numberOfElements"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-9">
-                                    <div class="row mt-2">
+                                    <div class="row">
                                         <div class="col-sm-12">
                                             <label>Размерность слагаемых</label>
                                         </div>
@@ -69,12 +58,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-
                 </div>
             </div>
         </settings-wrapper>
@@ -82,6 +65,7 @@
 </template>
 
 <script>
+  import BrainMath from '../../lib/math'
   import SettingsWrapper from '../common/SettingsWrapper'
   import SettingsItemCrease from '../common/SettingsItemCrease';
 
@@ -100,20 +84,60 @@
       },
     },
 
+    created: function () {
+      this.createItems()
+    },
+
     data: function () {
       return {
         items: [],
-        speedItems: 1000,
         speedElements: 500,
-        numberOfItems: 1,
+        numberOfItems: 2,
         numberOfElements: 2,
         sizeFrom: 1,
         sizeTo: 1,
       };
     },
 
-    methods: {
+    watch: {
+      isReady: function (value) {
+        if (value) {
+          this.createItems()
+          this.$emit('push-settings', {
+            items: this.items,
+            speedItems: this.speedItems,
+            speedElements: this.speedElements,
+          })
+        }
+      }
+    },
 
+    methods: {
+      createItems: function () {
+        this.items = []
+        for (let i = 0; i < this.numberOfItems; i++) {
+          this.items.push(this.createItem())
+        }
+      },
+
+      createItem: function () {
+        const item = {
+          elements: [],
+          result: 0,
+        }
+
+        for (let i = 0; i < this.numberOfElements; i++) {
+          let element = this.createElement();
+          item.result += element
+          item.elements.push(element)
+        }
+
+        return item
+      },
+
+      createElement: function () {
+        return BrainMath.getNumberBySize(BrainMath.getRandomNumber(this.sizeFrom, this.sizeTo))
+      },
     },
   }
 </script>

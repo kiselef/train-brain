@@ -8,6 +8,7 @@
               :isReady="isReady"
               :isCompleted="isCompleted"
               @increase-answer-errors="errorsAnswerCounter++"
+              @stop="stop"
           ></router-view>
           <multiply-results
               :errorsAnswerCounter="errorsAnswerCounter"
