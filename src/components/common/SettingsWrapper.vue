@@ -37,6 +37,8 @@
       isReady: function (value) {
         if (value) {
           this.visible = false
+        } else {
+          this.visible = true
         }
       }
     },
