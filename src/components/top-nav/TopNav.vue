@@ -1,9 +1,6 @@
 <template>
     <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
-        <!--<b-navbar-brand href="#">NavBar</b-navbar-brand>-->
-
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
                 <router-link
@@ -17,7 +14,6 @@
 
             <b-navbar-nav class="ml-auto">
                 <b-nav-item-dropdown right>
-                    <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
                         <em>{{ name }}</em>
                     </template>
@@ -36,7 +32,8 @@
       name: {
         type: String,
         required: true,
-      }
+      },
+      isReady: Boolean
     },
 
     data: function () {
@@ -57,6 +54,7 @@
     },
 
     methods: {
+
     },
   }
 </script>

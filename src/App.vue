@@ -2,7 +2,7 @@
   <div id="app">
       <who-are-you v-if="!name" @user-name-changed="login" />
       <div v-else>
-          <top-nav :name="name" @user-logout="logout" />
+          <top-nav :name="name" :isReady="isReady" @user-logout="logout" />
           <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
           <router-view
               :isReady="isReady"
@@ -38,7 +38,7 @@ export default {
     };
   },
 
-  mounted: function () {
+  created: function () {
     this.name = localStorage.name || ''
   },
 
@@ -75,10 +75,6 @@ export default {
     name (newName) {
       localStorage.name = newName
     },
-
-    // isReady (value) {
-    //   this.$route.is
-    // },
   },
 }
 </script>
