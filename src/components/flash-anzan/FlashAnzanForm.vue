@@ -97,7 +97,7 @@
           setTimeout(() => {
             this.question = elements[iElement]
             this.animationChangeFlag = Date.now()
-          }, ms + 400) // 400мс рассчитано из длительности css-анимации
+          }, ms + 400) // 400мс расчитано из длительности css-анимации
           ms += this.speedElements
         }
       },

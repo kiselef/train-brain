@@ -5,10 +5,15 @@
                 <div class="col-sm-12 col-lg-12">
                     <div class="row">
                         <div class="col-lg-4">
-                            <b-form-group :label="`Число примеров: ${this.numberOfItems}`">
-                                <b-form-input class="mt-2" v-model.number="numberOfItems" type="range" min="1" max="10"></b-form-input>
-                            </b-form-group>
-                            <div class="row">
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <settings-item-crease
+                                        label="Число примеров"
+                                        :min="1"
+                                        :max="30"
+                                        v-model="numberOfItems"
+                                    />
+                                </div>
                                 <div class="col-sm-6">
                                     <settings-item-crease
                                         label="Число слагаемых"
@@ -17,16 +22,10 @@
                                         v-model="numberOfElements"
                                     />
                                 </div>
-                                <div class="col-sm-6">
-                                    <settings-item-crease
-                                        label="Скорость слагаемых"
-                                        :min="500"
-                                        :max="5000"
-                                        :step="250"
-                                        v-model="speedElements"
-                                    />
-                                </div>
                             </div>
+                            <b-form-group :label="`Скорость слагаемых: ${this.speedElementsInSec} сек`">
+                                <b-form-input class="mt-2" v-model.number="speedElements" type="range" step="100" min="500" max="2500"></b-form-input>
+                            </b-form-group>
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
@@ -84,6 +83,12 @@
       },
     },
 
+    computed: {
+      speedElementsInSec: function () {
+        return this.speedElements / 1000
+      }
+    },
+
     created: function () {
       this.createItems()
     },
@@ -91,7 +96,7 @@
     data: function () {
       return {
         items: [],
-        speedElements: 500,
+        speedElements: 1000,
         numberOfItems: 2,
         numberOfElements: 2,
         sizeFrom: 1,
