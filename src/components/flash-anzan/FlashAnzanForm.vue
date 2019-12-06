@@ -1,7 +1,6 @@
 <template>
     <div>
         <form-wrapper :is-ready="isReady" :is-completed="isCompleted" v-if="!isCompleted">
-            <div class="question col-lg-12 text-center mb-4 mt-3">{{ question }}</div>
             <div class="answer col-lg-4 col-sm-6 m-auto">
                 <b-form-input
                     v-model.number="userAnswer"
@@ -10,6 +9,13 @@
                     @change="changeUserAnswer"
                     placeholder="Ответ"
                 ></b-form-input>
+            </div>
+            <div class="question col-lg-12 text-center mb-4 mt-3">
+                <transition name="change">
+                    <div :key="animationChangeFlag">
+                        {{ question }}
+                    </div>
+                </transition>
             </div>
         </form-wrapper>
     </div>
@@ -72,10 +78,11 @@
         // индекс текущего примера
         currentItemNumber: -1,
         startSteps: [
-          {text: 'На старт', timeout: 0},
-          {text: 'Внимание', timeout: 900},
-          {text: 'Поехали!', timeout: 1800},
+          {text: 'Готов?', timeout: 0},
+          {text: 'Поехали!', timeout: 1100},
         ],
+        // флаг активации анимации
+        animationChangeFlag: null,
       };
     },
 
@@ -89,7 +96,8 @@
         for (let iElement in elements) {
           setTimeout(() => {
             this.question = elements[iElement]
-          }, ms)
+            this.animationChangeFlag = Date.now()
+          }, ms + 400) // 400мс рассчитано из длительности css-анимации
           ms += this.speedElements
         }
       },
@@ -135,5 +143,15 @@
 <style lang="less" scoped>
     .question {
         font-size: 4.5em;
+    }
+
+    .change-enter, .change-leave-active {
+        transition: font-size 0.4s;
+        font-size: 0.1em;
+    }
+
+    .change-enter-active {
+        transition: font-size 0.4s;
+        font-size: 1em;
     }
 </style>
