@@ -18,14 +18,13 @@
 </template>
 
 <script>
-  import {mutation} from "../../lib/store";
+  import {mutation, store} from "../../lib/store";
 
   export default {
     name: "MultiplyFormItem",
 
     props: {
       item: Object,
-      isReady: Boolean,
     },
 
     data: function () {
@@ -45,10 +44,14 @@
     },
 
     computed: {
-      isRightAnswer: function () {
+      isRightAnswer() {
         return this.isChanged
           ? this.item.result === this.userAnswer
           : false
+      },
+
+      isReady() {
+        return store.isReady
       },
     },
 
