@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                             <b-form-group :label="`Скорость слагаемых: ${this.speedElementsInSec} сек`">
-                                <b-form-input class="mt-2" v-model.number="speedElements" type="range" step="100" min="500" max="2500"></b-form-input>
+                                <b-form-input class="mt-2" v-model.number="speedElements" type="range" step="100" min="200" max="2500"></b-form-input>
                             </b-form-group>
                         </div>
                         <div class="col-lg-6">
