@@ -49,12 +49,13 @@
             active: true,
             path: '/flash'
           },
+          {
+            title: 'Судоку',
+            active: true,
+            path: '/sudoku'
+          },
         ],
       }
-    },
-
-    methods: {
-
     },
   }
 </script>
