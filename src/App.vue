@@ -3,16 +3,10 @@
       <who-are-you v-if="!name" @user-name-changed="login" />
       <div v-else>
           <top-nav :name="name" @user-logout="logout" />
-          <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
           <router-view
-              :isReady="isReady"
-              :isCompleted="isCompleted"
               @stop="stop"
           ></router-view>
           <multiply-results
-              :errorsAnswerCounter="errorsAnswerCounter"
-              :isReady="isReady"
-              :isCompleted="isCompleted"
               @start="start"
               @stop="stop"
           />
