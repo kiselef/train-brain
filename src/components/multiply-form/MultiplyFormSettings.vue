@@ -1,5 +1,5 @@
 <template>
-    <settings-wrapper :is-ready="isReady">
+    <settings-wrapper>
         <div class="row">
             <div class="col-sm-6 col-lg-3">
                 <b-form-group
@@ -63,6 +63,7 @@
 
 <script>
   import SettingsWrapper from "../common/SettingsWrapper";
+  import {store} from "../../lib/store";
   export default {
     name: "MultiplyFormSettings",
 
@@ -96,10 +97,9 @@
       };
     },
 
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
+    computed: {
+      isReady() {
+        return store.isReady
       },
     },
 
@@ -113,20 +113,6 @@
           this.$emit('push-items', this.items)
         }
       }
-    },
-
-    computed: {
-      // сгенерированные примеры по настройкам
-      /*items: function () {
-        let items = [];
-        if (this.isReady) {
-          for (let iItems = 0; iItems < this.numberOfItems; iItems++) {
-            items.push(this.createItem())
-          }
-        }
-
-        return items;
-      }*/
     },
 
     methods: {

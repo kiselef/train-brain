@@ -1,9 +1,7 @@
 <template>
     <b-navbar toggleable="lg" type="light" variant="light" fixed="bottom">
         <b-navbar-nav>
-            <multiply-timer
-                :isReady="isReady"
-                :isCompleted="isCompleted"/>
+            <multiply-timer />
             <div v-if="isCompleted">
                 <div>Ошибок: <span>{{ errorsAnswerCounter }}</span></div>
             </div>
@@ -17,6 +15,7 @@
 
 <script>
   import MultiplyTimer from "./multiply-timer/MultiplyTimer";
+  import {store} from "../lib/store";
 
   export default {
     name: "MultiplyResults",
@@ -25,16 +24,16 @@
       MultiplyTimer
     },
 
-    props: {
-      isReady: Boolean,
-      isCompleted: Boolean,
-      errorsAnswerCounter: Number,
-    },
-
-    data: function () {
-      return {
-
-      };
+    computed: {
+      isReady() {
+        return store.isReady
+      },
+      isCompleted() {
+        return store.isCompleted
+      },
+      errorsAnswerCounter() {
+        return store.errorsAnswerCounter
+      },
     },
   }
 </script>

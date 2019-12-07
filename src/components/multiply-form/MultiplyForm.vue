@@ -2,15 +2,12 @@
     <div>
         <multiply-form-settings
             @push-items="pullItems"
-            :is-ready="isReady"
         />
-        <form-wrapper :isReady="isReady" :is-completed="isCompleted">
+        <form-wrapper>
             <multiply-form-item
                 v-for="(item, index) in items"
                 :key="index"
                 :item="item"
-                :isReady="isReady"
-                @increase-answer-errors="$emit('increase-answer-errors')"
             />
         </form-wrapper>
     </div>
@@ -20,6 +17,7 @@
   import FormWrapper from '../common/FormWrapper'
   import MultiplyFormItem from './MultiplyFormItem'
   import MultiplyFormSettings from './MultiplyFormSettings'
+  import {store} from "../../lib/store";
 
   export default {
     name: "MultiplyForm",
@@ -30,14 +28,12 @@
       MultiplyFormSettings,
     },
 
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
+    computed: {
+      isReady() {
+        return store.isReady
       },
-      isCompleted: {
-        type: Boolean,
-        default: false,
+      isCompleted() {
+        return store.isCompleted
       },
     },
 

@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import {store} from "../../lib/store";
+
   export default {
     name: "TopNav",
 
@@ -33,7 +35,12 @@
         type: String,
         required: true,
       },
-      isReady: Boolean
+    },
+
+    computed: {
+      isReady() {
+        return store.isReady
+      },
     },
 
     data: function () {

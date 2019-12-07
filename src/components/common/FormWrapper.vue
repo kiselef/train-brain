@@ -7,17 +7,18 @@
 </template>
 
 <script>
+  import {store} from "../../lib/store";
+
   export default {
     name: "FormWrapper",
 
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
+    computed: {
+      isReady() {
+        return store.isReady
       },
-      isCompleted: {
-        type: Boolean,
-        default: false,
+
+      isCompleted() {
+        return store.isCompleted
       },
     },
 

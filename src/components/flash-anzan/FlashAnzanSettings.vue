@@ -67,6 +67,7 @@
   import BrainMath from '../../lib/math'
   import SettingsWrapper from '../common/SettingsWrapper'
   import SettingsItemCrease from '../common/SettingsItemCrease';
+  import {store} from "../../lib/store";
 
   export default {
     name: "FlashAnzanSettings",
@@ -76,17 +77,14 @@
       SettingsItemCrease,
     },
 
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
-      },
-    },
-
     computed: {
       speedElementsInSec: function () {
         return this.speedElements / 1000
-      }
+      },
+
+      isReady() {
+        return store.isReady
+      },
     },
 
     created: function () {

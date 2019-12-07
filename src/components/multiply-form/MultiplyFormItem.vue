@@ -18,6 +18,8 @@
 </template>
 
 <script>
+  import {mutation} from "../../lib/store";
+
   export default {
     name: "MultiplyFormItem",
 
@@ -76,7 +78,7 @@
         }
         this.isChanged = true;
         if (!this.isRightAnswer) {
-          this.$emit('increase-answer-errors');
+          mutation.increaseErrorsAnswerCounter()
         }
       },
     },

@@ -1,15 +1,11 @@
 <template>
     <div>
         <flash-anzan-settings
-            :is-ready="isReady"
             @push-settings="pullSettings"
         />
         <flash-anzan-form
             :items="items"
             :speedElements="speedElements"
-            :is-ready="isReady"
-            :is-completed="isCompleted"
-            @increase-answer-errors="$emit('increase-answer-errors')"
             @stop="$emit('stop')"
         />
     </div>
@@ -25,17 +21,6 @@
     components: {
       FlashAnzanForm,
       FlashAnzanSettings,
-    },
-
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
-      },
-      isCompleted: {
-        type: Boolean,
-        default: false,
-      },
     },
 
     methods: {

@@ -2,12 +2,11 @@
   <div id="app">
       <who-are-you v-if="!name" @user-name-changed="login" />
       <div v-else>
-          <top-nav :name="name" :isReady="isReady" @user-logout="logout" />
+          <top-nav :name="name" @user-logout="logout" />
           <!-- TODO: isReady/isCompleted напрашиваются на Vuex -->
           <router-view
               :isReady="isReady"
               :isCompleted="isCompleted"
-              @increase-answer-errors="errorsAnswerCounter++"
               @stop="stop"
           ></router-view>
           <multiply-results
@@ -25,6 +24,7 @@
 import MultiplyResults from "./components/MultiplyResults";
 import WhoAreYou from "./components/WhoAreYou";
 import TopNav from "./components/top-nav/TopNav";
+import {store, mutation} from './lib/store'
 
 export default {
   name: 'app',
@@ -32,10 +32,21 @@ export default {
   data: function () {
     return {
       name: '',
-      isReady: false,
-      isCompleted: false,
-      errorsAnswerCounter: 0,
     };
+  },
+
+  computed: {
+    isReady() {
+      return store.isReady
+    },
+
+    isCompleted() {
+      return store.isCompleted
+    },
+
+    errorsAnswerCounter() {
+      return store.errorsAnswerCounter
+    },
   },
 
   created: function () {
@@ -50,14 +61,14 @@ export default {
 
   methods: {
     start: function () {
-      this.isReady = true
-      this.isCompleted = false
-      this.errorsAnswerCounter = 0
+      mutation.setIsReady(true)
+      mutation.setIsCompleted(false)
+      mutation.clearErrorsAnswerCounter()
     },
 
     stop: function () {
-      this.isReady = false
-      this.isCompleted = true
+      mutation.setIsReady(false)
+      mutation.setIsCompleted(true)
     },
 
     login: function (name) {
@@ -66,8 +77,8 @@ export default {
 
     logout: function () {
       this.name = ''
-      this.isReady = false
-      this.isCompleted = false
+      mutation.setIsReady(false)
+      mutation.setIsCompleted(false)
     },
   },
 
