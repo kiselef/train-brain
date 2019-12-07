@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form-wrapper :is-ready="isReady" :is-completed="isCompleted" v-if="!isCompleted">
+        <form-wrapper v-if="!isCompleted">
             <div class="answer col-lg-4 col-sm-6 m-auto">
                 <b-form-input
                     v-model.number="userAnswer"
@@ -23,6 +23,7 @@
 
 <script>
   import FormWrapper from "../common/FormWrapper";
+  import {mutation, store} from "../../lib/store";
   export default {
     name: "FlashAnzanForm",
 
@@ -33,24 +34,24 @@
     props: {
       items: Array,
       speedElements: Number,
-      isReady: {
-        type: Boolean,
-        default: false,
-      },
-      isCompleted: {
-        type: Boolean,
-        default: false,
-      },
     },
 
     computed: {
-      isNextElement: function () {
+      isNextElement() {
         return typeof this.items[this.currentItemNumber + 1] !== "undefined"
       },
 
-      currentItem: function () {
+      currentItem() {
         return this.items[this.currentItemNumber]
-      }
+      },
+
+      isReady() {
+        return store.isReady
+      },
+
+      isCompleted() {
+        return store.isCompleted
+      },
     },
 
     watch: {
@@ -115,7 +116,7 @@
       changeUserAnswer: function () {
         this.isRightAnswer = this.currentItem.result === this.userAnswer
         if (!this.isRightAnswer) {
-          this.$emit('increase-answer-errors')
+          mutation.increaseErrorsAnswerCounter()
         } else {
           this.nextItem()
         }

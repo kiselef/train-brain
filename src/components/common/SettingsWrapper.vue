@@ -17,13 +17,14 @@
 </template>
 
 <script>
+  import {store} from "../../lib/store";
+
   export default {
     name: "SettingsWrapper",
 
-    props: {
-      isReady: {
-        type: Boolean,
-        default: false,
+    computed: {
+      isReady() {
+        return store.isReady
       },
     },
 

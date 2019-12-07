@@ -11,13 +11,10 @@
 </template>
 
 <script>
+  import {store} from "../../lib/store";
+
   export default {
     name: "MultiplyTimer",
-
-    props: {
-      isReady: Boolean,
-      isCompleted: Boolean,
-    },
 
     data: function () {
       return {
@@ -28,9 +25,17 @@
     },
 
     computed: {
-      timeMin: function () {
+      timeMin() {
         return Math.floor(this.timeSecSummary / 60)
-      }
+      },
+
+      isReady() {
+        return store.isReady
+      },
+
+      isCompleted() {
+        return store.isCompleted
+      },
     },
 
     watch: {
