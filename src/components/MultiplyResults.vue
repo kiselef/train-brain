@@ -3,7 +3,7 @@
         <b-navbar-nav>
             <multiply-timer />
             <div v-if="isCompleted">
-                <div>Ошибок: <span>{{ errorsAnswerCounter }}</span></div>
+                <div>&nbsp;Ошибок: <span>{{ errorsAnswerCounter }}</span></div>
             </div>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">

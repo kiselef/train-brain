@@ -13,20 +13,29 @@ export default {
    * @returns {*|number}
    */
   getNumberBySize: function (size = 1, relatedMaxValue = 0) {
-    const min = Math.pow(10, size - 1);
-    let   max = Math.pow(10, size) - 1;
-    // кинем монетку
-    const coinSide = Math.round(Math.random());
+    const min = Math.pow(10, size - 1)
+    let   max = Math.pow(10, size) - 1
 
     let rand = 0;
     if (relatedMaxValue === 0) {
       rand = this.getRandomNumber(min, max);
     } else {
-      // то монетка решает, будет ли генерируемое число зависеть от related-числа и отрицательное ли оно будет
-      if (relatedMaxValue > 1 && coinSide) {
-        max = relatedMaxValue;
+      // кинем монетку для вывода отрицательного/полоительного числа
+      let coinSide = Math.round(Math.random());
+
+      if (relatedMaxValue === -1) {
+        rand = this.getRandomNumber(min, max)
+      } else {
+        if (relatedMaxValue < min) {
+          // возвращать только положительные числа
+          coinSide = false
+        }
+        if (relatedMaxValue > min && relatedMaxValue < max) {
+          max = relatedMaxValue
+        }
+        rand = this.getRandomNumber(min, max)
       }
-      rand = this.getRandomNumber(min, max);
+
       if (coinSide) {
         rand = -rand;
       }

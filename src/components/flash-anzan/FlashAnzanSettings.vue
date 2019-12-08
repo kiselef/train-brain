@@ -147,13 +147,8 @@
           result: 0,
         }
 
-        let relatedValue = !this.onlyPositiveResult ? -1 : 0;
         for (let i = 0; i < this.numberOfElements; i++) {
-          if (!this.onlyPositiveElements && relatedValue === 0) {
-            relatedValue = item.result;
-          }
-
-          let element = this.onlyPositiveElements ? this.createElement() : this.createElement(relatedValue)
+          let element = this.createElement(item.result)
           item.result += element
           item.elements.push(element)
         }
@@ -162,10 +157,23 @@
       },
 
       createElement(relatedValue = 0) {
+        let element;
+        if (this.onlyPositiveElements) {
+          element = this.createRandomNumber()
+        } else if (this.onlyPositiveResult) {
+          element = this.createRandomNumber(relatedValue)
+        } else {
+          element = this.createRandomNumber(-1)
+        }
+
+        return element
+      },
+
+      createRandomNumber(relatedValue = 0) {
         const randomSize = BrainMath.getRandomNumber(this.sizeFrom, this.sizeTo);
 
         return BrainMath.getNumberBySize(randomSize, relatedValue)
-      },
+      }
     },
   }
 </script>
