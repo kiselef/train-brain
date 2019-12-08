@@ -40,11 +40,11 @@ export default {
         rand = -rand;
       }
     }
-
+    /*
     // числа должны быть без нуля на конце
     if (rand % 10 === 0) {
       rand += this.getRandomNumber(1, 9);
-    }
+    }*/
 
     return rand;
   },
