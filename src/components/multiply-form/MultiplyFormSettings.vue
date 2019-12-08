@@ -63,6 +63,7 @@
 
 <script>
   import SettingsWrapper from "../common/SettingsWrapper";
+  import BrainMath from "../../lib/math";
   import {store} from "../../lib/store";
   export default {
     name: "MultiplyFormSettings",
@@ -140,33 +141,18 @@
         };
         for (let iElements = 0; iElements < this.numberOfElements; iElements++) {
           // создаем каждый элемент примера
-          let currentElement = this.getNumberBySize(this.sizesOfElement[iElements]);
-          currentItem.elements.push(currentElement);
-          currentItem.label += this.numberOfElements === iElements + 1 ? currentElement : `${currentElement} ${this.operation} `;
+
+          // передавать default-operation
+          let currentElement = BrainMath.getNumberBySize(this.sizesOfElement[iElements])
+          currentItem.elements.push(currentElement)
+          currentItem.result = eval(`${currentItem.result}${this.operation}${currentElement}`)
+          if (currentElement < 0 && iElements > 0) {
+            currentElement = '(' + currentElement + ')'
+          }
+          currentItem.label += this.numberOfElements === iElements + 1 ? currentElement : `${currentElement} ${this.operation} `
         }
-        currentItem.result = eval(currentItem.label);
 
         return currentItem;
-      },
-
-      // TODO: вынести эту пару методов в отдельную либу, подключать через import
-      getNumberBySize: function (size = 1) {
-        const
-          min = Math.pow(10, size - 1),
-          max = Math.pow(10, size) - 1;
-
-        let rand = this.getRandomNumber(min, max);
-        // числа должны быть без нуля на конце
-        if (rand % 10 === 0) {
-          rand += this.getRandomNumber(1, 9);
-        }
-
-        return rand;
-      },
-
-      getRandomNumber: (min, max) => {
-        let rand = min - 0.5 + Math.random() * (max - min + 1);
-        return Math.round(rand);
       },
     }
   }
