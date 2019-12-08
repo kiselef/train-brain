@@ -7,7 +7,7 @@
                     :state="isRightAnswer"
                     @keydown="isRightAnswer = null"
                     @change="changeUserAnswer"
-                    placeholder="Ответ"
+                    :placeholder="currentItem ? currentItem.result.toString() : 'Ответ'"
                 ></b-form-input>
             </div>
             <div class="question col-lg-12 text-center mb-4 mt-3">
