@@ -23,8 +23,8 @@ export default {
       rand = this.getRandomNumber(min, max);
     } else {
       // то монетка решает, будет ли генерируемое число зависеть от related-числа и отрицательное ли оно будет
-      if (relatedMaxValue > 1) {
-        max = coinSide ? relatedMaxValue : max;
+      if (relatedMaxValue > 1 && coinSide) {
+        max = relatedMaxValue;
       }
       rand = this.getRandomNumber(min, max);
       if (coinSide) {
