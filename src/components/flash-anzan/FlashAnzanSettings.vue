@@ -55,6 +55,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <b-form-checkbox v-model="onlyPositiveElements" class="mt-3">
+                                        Только положительные слагаемые
+                                    </b-form-checkbox>
+                                    <b-form-checkbox v-model="onlyPositiveResult" :disabled="onlyPositiveElements">
+                                        Только положительный результат
+                                    </b-form-checkbox>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +88,7 @@
     },
 
     computed: {
-      speedElementsInSec: function () {
+      speedElementsInSec() {
         return this.speedElements / 1000
       },
 
@@ -96,14 +106,16 @@
         items: [],
         speedElements: 1000,
         numberOfItems: 2,
-        numberOfElements: 2,
+        numberOfElements: 3,
         sizeFrom: 1,
         sizeTo: 1,
+        onlyPositiveElements: true,
+        onlyPositiveResult: true,
       };
     },
 
     watch: {
-      isReady: function (value) {
+      isReady(value) {
         if (value) {
           this.createItems()
           this.$emit('push-settings', {
@@ -112,25 +124,36 @@
             speedElements: this.speedElements,
           })
         }
-      }
+      },
+
+      onlyPositiveElements(value) {
+        if (value) {
+          this.onlyPositiveResult = true
+        }
+      },
     },
 
     methods: {
-      createItems: function () {
+      createItems() {
         this.items = []
         for (let i = 0; i < this.numberOfItems; i++) {
           this.items.push(this.createItem())
         }
       },
 
-      createItem: function () {
+      createItem() {
         const item = {
           elements: [],
           result: 0,
         }
 
+        let relatedValue = !this.onlyPositiveResult ? -1 : 0;
         for (let i = 0; i < this.numberOfElements; i++) {
-          let element = this.createElement();
+          if (!this.onlyPositiveElements && relatedValue === 0) {
+            relatedValue = item.result;
+          }
+
+          let element = this.onlyPositiveElements ? this.createElement() : this.createElement(relatedValue)
           item.result += element
           item.elements.push(element)
         }
@@ -138,8 +161,10 @@
         return item
       },
 
-      createElement: function () {
-        return BrainMath.getNumberBySize(BrainMath.getRandomNumber(this.sizeFrom, this.sizeTo))
+      createElement(relatedValue = 0) {
+        const randomSize = BrainMath.getRandomNumber(this.sizeFrom, this.sizeTo);
+
+        return BrainMath.getNumberBySize(randomSize, relatedValue)
       },
     },
   }
